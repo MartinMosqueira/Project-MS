@@ -20,7 +20,7 @@ class Game:
         self.grid = [[False for _ in range(self.x // 20)] for _ in range(self.y // 20)]
 
         # initialize store
-        self.store = Store(5, 30)
+        self.store = Store(3, 30)
 
         # initialize boxes
         self.store.start_boxes()
@@ -39,6 +39,19 @@ class Game:
 
             # draw board
             self.board.draw()
+
+            # draw boxes
+            for i in range(1, self.store.numberBoxes + 1):
+                self.board.draw_box(50 + (i * 100), 100)
+            
+            # draw clients
+            for i, clients in self.store.boxes.items():
+                for j, client in enumerate(clients):
+                    self.board.draw_client(50 + (i * 100), 100 + ((j + 1) * 50))
+
+            # draw clients in row
+            for i, client in enumerate(self.store.row):
+                self.board.draw_client(50, 100 + ((i + 1) * 50))
 
             # client arrival simulation
             if self.store.start_client():
