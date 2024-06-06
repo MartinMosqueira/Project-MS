@@ -8,7 +8,7 @@ class Store:
         self.costBox=1000
         self.row = []
         self.timeSeconds = timeSeconds
-        self.clientProbability = 1/144
+        self.clientProbability = 1/10
 
     def start_boxes(self):
         for box in range(1,self.numberBoxes+1):

@@ -32,7 +32,12 @@ class Game:
         self.running = True
 
     def run(self):
+        last_time = pygame.time.get_ticks() // 1000
+
         while self.running:
+            current_time = pygame.time.get_ticks() // 1000
+            elapsed_time = current_time - last_time
+
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.running = False
@@ -94,8 +99,11 @@ class Game:
                         print("Attention time box", i+1, ":", self.store.timeBoxes[i+1])
                         
                 
-            self.clock.tick(15)
+            last_time = current_time
             pygame.display.update()
+            
+            elapsed_time_in_milliseconds = elapsed_time * 1000
+            self.clock.tick_busy_loop(1000 // elapsed_time_in_milliseconds if elapsed_time_in_milliseconds != 0 else 60)
             
         pygame.quit()
         sys.exit()
