@@ -20,7 +20,7 @@ class Game:
         self.grid = [[False for _ in range(self.x // 20)] for _ in range(self.y // 20)]
 
         # initialize store
-        self.store = Store(3, 30)
+        self.store = Store(1, 30)
 
         # initialize boxes
         self.store.start_boxes()
@@ -72,6 +72,8 @@ class Game:
                 else:
                     self.store.row.append(newClient)
                     print("Client assigned to row")
+
+                    self.store.timeRow.append(newClient.timeSeconds)
                     
             
             # check if a client arrives
@@ -80,7 +82,16 @@ class Game:
                     if len(self.store.boxes[i+1]) == 0:
                         self.store.boxes[i+1].append(self.store.row.pop(0))
                         print("Client assigned to box", i+1)
-                        break
+
+                        self.store.timeRow.pop(0)
+                
+                for time in range(0, len(self.store.timeRow)-1):
+                    self.store.timeRow[time] -= 1
+                    if self.store.timeRow[time] < 0:
+                        self.store.row.pop(0)
+                        self.store.timeRow.pop(0)
+                        print("Client finished in row!!")
+                
             
             # attention time simulation
             for i in range(0, self.store.numberBoxes):
@@ -101,7 +112,7 @@ class Game:
                 
             last_time = current_time
             pygame.display.update()
-            
+
             elapsed_time_in_milliseconds = elapsed_time * 1000
             self.clock.tick_busy_loop(1000 // elapsed_time_in_milliseconds if elapsed_time_in_milliseconds != 0 else 60)
             
