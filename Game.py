@@ -3,6 +3,7 @@ from pygame.locals import *
 from GameBoard import GameBoard
 from Store import Store
 from Client import Client
+from Menu import Menu
 import sys
 
 class Game:
@@ -19,24 +20,36 @@ class Game:
         # initialize the grid
         self.grid = [[False for _ in range(self.x // 20)] for _ in range(self.y // 20)]
 
-        # initialize store
-        self.store = Store(1, 30)
-
-        # initialize boxes
-        self.store.start_boxes()
-
-        # initialize time boxes
-        self.store.start_time_boxes()
-
         # initialize cost
-        self.costBoxes = self.store.cost_boxes()
-        self.lost=0
-        self.earn=0
+        self.costBoxes = 0
+        self.lost = 0
+        self.earn = 0
 
         self.clock = pygame.time.Clock()
         self.running = True
+    
+    def show_menu(self):
+        menu = Menu(self.x, self.y)
+        num_boxes, sim_time = menu.run()
+
+        if num_boxes is not None and sim_time is not None:
+            self.store = Store(num_boxes)
+            #sim_time=...
+            
+            # initialize boxes
+            self.store.start_boxes()
+
+            # initialize time boxes
+            self.store.start_time_boxes()
+
+            # calculate cost boxes
+            self.costBoxes = self.store.cost_boxes()
+        else:
+            pygame.quit()
+            sys.exit()
 
     def run(self):
+        self.show_menu()
         last_time = pygame.time.get_ticks() // 1000
 
         while self.running:

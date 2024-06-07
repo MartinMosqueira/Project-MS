@@ -1,13 +1,12 @@
 import numpy as np
 
 class Store:
-    def __init__(self, numberBoxes, timeSeconds):
+    def __init__(self, numberBoxes):
         self.numberBoxes = numberBoxes
         self.boxes={}
         self.timeBoxes={}
         self.costBox=1000
         self.row = []
-        self.timeSeconds = timeSeconds
         self.clientProbability = 1/144
         self.timeRow = []
 
