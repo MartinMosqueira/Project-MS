@@ -61,7 +61,7 @@ class Game:
 
             # draw clients in row
             for i, client in enumerate(self.store.row):
-                self.board.draw_client(50, 100 + ((i + 1) * 50), client)
+                self.board.draw_client(50, 100 + ((i + 1) * 50),client)
 
             # client arrival simulation
             if self.store.start_client():
