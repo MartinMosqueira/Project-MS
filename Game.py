@@ -25,6 +25,10 @@ class Game:
         self.lost = 0
         self.earn = 0
 
+        # initialize time
+        self.sim_time = 0
+        self.time = 0
+
         self.clock = pygame.time.Clock()
         self.running = True
     
@@ -34,7 +38,7 @@ class Game:
 
         if num_boxes is not None and sim_time is not None:
             self.store = Store(num_boxes)
-            #sim_time=...
+            self.sim_time = sim_time
             
             # initialize boxes
             self.store.start_boxes()
@@ -50,11 +54,12 @@ class Game:
 
     def run(self):
         self.show_menu()
-        last_time = pygame.time.get_ticks() // 1000
 
         while self.running:
-            current_time = pygame.time.get_ticks() // 1000
-            elapsed_time = current_time - last_time
+            
+            if self.time >= self.sim_time:
+                self.running = False
+                continue
 
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -129,12 +134,10 @@ class Game:
                         self.store.timeBoxes[i+1] -= 1
                         print("Attention time box", i+1, ":", self.store.timeBoxes[i+1])
                         
-                
-            last_time = current_time
             pygame.display.update()
 
-            elapsed_time_in_milliseconds = elapsed_time * 1000
-            self.clock.tick_busy_loop(1000 // elapsed_time_in_milliseconds if elapsed_time_in_milliseconds != 0 else 60)
+            self.clock.tick(1)
+            self.time += 1
             
         pygame.quit()
         #sys.exit()
