@@ -57,11 +57,11 @@ class Game:
             # draw clients
             for i, clients in self.store.boxes.items():
                 for j, client in enumerate(clients):
-                    self.board.draw_client(50 + (i * 100), 100 + ((j + 1) * 50))
+                    self.board.draw_client(50 + (i * 100), 100 + ((j + 1) * 50),client)
 
             # draw clients in row
             for i, client in enumerate(self.store.row):
-                self.board.draw_client(50, 100 + ((i + 1) * 50))
+                self.board.draw_client(50, 100 + ((i + 1) * 50), client)
 
             # client arrival simulation
             if self.store.start_client():

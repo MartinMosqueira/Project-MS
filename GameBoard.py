@@ -15,21 +15,14 @@ class GameBoard:
 
         # colors
         self.boxColor = (0, 255, 0)
-        self.clientColor = self.generate_random_color()
         self.lineColor = (0, 0, 0)
         self.backgroundColor = (8, 4, 36)
-
-    def generate_random_color(self):
-        red = random.randint(0, 255)
-        green = random.randint(0, 255)
-        blue = random.randint(0, 255)
-        return (red, green, blue)
 
     def draw_box(self, x, y):
         pygame.draw.rect(self.screen, self.boxColor, pygame.Rect(x, y, 50, 50))
 
-    def draw_client(self, x, y):
-        pygame.draw.circle(self.screen, self.clientColor, (x, y), 10)
+    def draw_client(self, x, y, client):
+        pygame.draw.circle(self.screen, client.color, (x, y), 10)
 
     def draw(self):
         self.screen.fill(self.backgroundColor)
