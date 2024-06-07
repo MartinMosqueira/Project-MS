@@ -28,6 +28,11 @@ class Game:
         # initialize time boxes
         self.store.start_time_boxes()
 
+        # initialize cost
+        self.costBoxes = self.store.cost_boxes()
+        self.lost=0
+        self.earn=0
+
         self.clock = pygame.time.Clock()
         self.running = True
 
@@ -90,6 +95,7 @@ class Game:
                     if self.store.timeRow[time] < 0:
                         self.store.row.pop(0)
                         self.store.timeRow.pop(0)
+                        self.lost += Client().costClient
                         print("Client finished in row!!")
                 
             
@@ -103,6 +109,7 @@ class Game:
                     elif self.store.timeBoxes[i+1] < 0:
                         self.store.boxes[i+1].pop(0)
                         self.store.timeBoxes[i+1] = None
+                        self.earn += Client().costClient
                         print("Client finished in box", i+1)
 
                     else:
@@ -117,9 +124,14 @@ class Game:
             self.clock.tick_busy_loop(1000 // elapsed_time_in_milliseconds if elapsed_time_in_milliseconds != 0 else 60)
             
         pygame.quit()
-        sys.exit()
-
+        #sys.exit()
+    
+    def print_results(self):
+        print("Cost: ", self.costBoxes)
+        print("Lost: ", self.lost)
+        print("Earn: ", self.earn)
 
 if __name__ == "__main__":
     game = Game()
     game.run()
+    game.print_results()

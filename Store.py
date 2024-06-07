@@ -18,6 +18,9 @@ class Store:
     def start_time_boxes(self):
         for box in range(1,self.numberBoxes+1):
             self.timeBoxes[box] = None
+    
+    def cost_boxes(self):
+        return self.numberBoxes*self.costBox
 
     def attention_time_box(self):
         return np.random.normal(10, 5, 1)
