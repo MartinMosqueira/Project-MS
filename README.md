@@ -13,3 +13,15 @@ Luego, la simulación responde a las siguientes reglas e hipótesis:
 8) Mantener el box abierto durante toda la mañana cuesta $1000.
 9) Cada cliente que se va sin ser atendido representa una pérdida de $10.000.
 10) Todo dato requerido para diseñar y programar la simulación puede ser asumido o especificado adicionalmente por cada uno de Ustedes.
+
+Resultados.
+Al final de cada simulación, deberemos responder a los siguientes interrogantes:
+1) Cuántos clientes ingresaron al local?
+2) Cuántos clientes fueron atendidos?
+3) Cuántos clientes no fueron atendidos? Es decir abandonaron el local por demoras.
+4) Tiempo mínimo de atención en box.
+5) Tiempo máximo de atención en box.
+6) Tiempo mínimo de espera en salón.
+7) Tiempo máximo de espera en salón.
+8) Costo de la operación: costo del box+costo por pérdida de clientes.
+9) Presentación gráfica animada de cada proceso simulado, con diversas velocidades. Archivo AVI.
