@@ -7,7 +7,7 @@ class Store:
         self.timeBoxes={}
         self.costBox=1000
         self.row = []
-        self.clientProbability = 1/5
+        self.clientProbability = 1/144
         self.timeRow = []
         
         # time boxes
