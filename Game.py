@@ -20,10 +20,15 @@ class Game:
         # initialize the grid
         self.grid = [[False for _ in range(self.x // 20)] for _ in range(self.y // 20)]
 
-        # initialize cost
+        # cost variables
         self.costBoxes = 0
         self.lost = 0
         self.earn = 0
+        
+        # clients variables
+        self.initClients = 0
+        self.servedClients = 0
+        self.unservedClients = 0
 
         # initialize time
         self.sim_time = 0
@@ -85,12 +90,14 @@ class Game:
             if self.store.start_client():
                 print("Client arrived")
                 newClient = Client()
+                self.initClients += 1
 
                 # assign client to a box or row
                 for i in range(0, self.store.numberBoxes):
                     if len(self.store.boxes[i+1]) == 0:
                         self.store.boxes[i+1].append(newClient)
                         print("Client assigned to box", i+1)
+                        self.servedClients += 1
                         break
                 else:
                     self.store.row.append(newClient)
@@ -105,7 +112,7 @@ class Game:
                     if len(self.store.boxes[i+1]) == 0:
                         self.store.boxes[i+1].append(self.store.row.pop(0))
                         print("Client assigned to box", i+1)
-
+                        self.servedClients += 1
                         self.store.timeRow.pop(0)
                 
                 for time in range(0, len(self.store.timeRow)-1):
@@ -114,6 +121,7 @@ class Game:
                         self.store.row.pop(0)
                         self.store.timeRow.pop(0)
                         self.lost += Client().costClient
+                        self.unservedClients += 1
                         print("Client finished in row!!")
                 
             
@@ -122,6 +130,8 @@ class Game:
                 if len(self.store.boxes[i+1]) > 0:
                     if self.store.timeBoxes[i+1] == None:
                         self.store.timeBoxes[i+1] = self.store.attention_time_box()
+                        self.store.max_attention_time_box(self.store.timeBoxes[i+1])
+                        self.store.min_attention_time_box(self.store.timeBoxes[i+1])
                         print("Attention time box", i+1, ":", self.store.timeBoxes[i+1])
                     
                     elif self.store.timeBoxes[i+1] < 0:
@@ -143,9 +153,17 @@ class Game:
         #sys.exit()
     
     def print_results(self):
-        print("Cost: ", self.costBoxes)
-        print("Lost: ", self.lost)
-        print("Earn: ", self.earn)
+        print("Clientes totales: ", self.initClients)
+        print("Clientes atendidos: ", self.servedClients)
+        print("Clientes no atendidos: ", self.unservedClients)
+        print("Tiempo minimo de atencion: ", self.store.min_time)
+        print("Tiempo maximo de atencion: ", self.store.max_time)
+        print("Tiempo minimo en fila: ", self.store.min_time_row())
+        print("Tiempo maximo en fila: ", self.store.max_time_row())
+        print("Costo de operacion: ", self.store.cost_boxes()+self.lost)
+        print("Costo: ", self.costBoxes)
+        print("Perdida: ", self.lost)
+        print("Ganancia: ", self.earn)
 
 if __name__ == "__main__":
     game = Game()
