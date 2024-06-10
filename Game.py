@@ -41,7 +41,7 @@ class Game:
         menu = Menu(self.x, self.y)
         num_boxes, sim_time = menu.run()
 
-        if num_boxes is not None and sim_time is not None:
+        if num_boxes is not None and num_boxes <= 10 and sim_time is not None:
             self.store = Store(num_boxes)
             self.sim_time = sim_time
             
