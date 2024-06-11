@@ -31,7 +31,7 @@ class Game:
         self.unservedClients = 0
 
         # initialize time
-        self.sim_time = 0
+        self.sim_time = 14400 # 4 hours
         self.time = 0
 
         self.clock = pygame.time.Clock()
@@ -39,11 +39,10 @@ class Game:
     
     def show_menu(self):
         menu = Menu(self.x, self.y)
-        num_boxes, sim_time = menu.run()
+        num_boxes = menu.run()
 
-        if num_boxes is not None and num_boxes <= 10 and sim_time is not None:
+        if num_boxes is not None and num_boxes <= 10:
             self.store = Store(num_boxes)
-            self.sim_time = sim_time
             
             # initialize boxes
             self.store.start_boxes()
@@ -88,7 +87,7 @@ class Game:
 
             # client arrival simulation
             if self.store.start_client():
-                print("Client arrived")
+                #print("Client arrived")
                 newClient = Client()
                 self.initClients += 1
 
@@ -96,12 +95,12 @@ class Game:
                 for i in range(0, self.store.numberBoxes):
                     if len(self.store.boxes[i+1]) == 0:
                         self.store.boxes[i+1].append(newClient)
-                        print("Client assigned to box", i+1)
+                        #print("Client assigned to box", i+1)
                         self.servedClients += 1
                         break
                 else:
                     self.store.row.append(newClient)
-                    print("Client assigned to row")
+                    #print("Client assigned to row")
 
                     self.store.timeRow.append(newClient.timeSeconds)
                     
@@ -110,10 +109,11 @@ class Game:
             if len(self.store.row) > 0:
                 for i in range(0, self.store.numberBoxes):
                     if len(self.store.boxes[i+1]) == 0:
-                        self.store.boxes[i+1].append(self.store.row.pop(0))
-                        print("Client assigned to box", i+1)
-                        self.servedClients += 1
-                        self.store.timeRow.pop(0)
+                        if self.store.row:
+                            self.store.boxes[i+1].append(self.store.row.pop(0))
+                            #print("Client assigned to box", i+1)
+                            self.servedClients += 1
+                            self.store.timeRow.pop(0)
                 
                 for time in range(0, len(self.store.timeRow)-1):
                     self.store.timeRow[time] -= 1
@@ -122,7 +122,7 @@ class Game:
                         self.store.timeRow.pop(0)
                         self.lost += Client().costClient
                         self.unservedClients += 1
-                        print("Client finished in row!!")
+                        #print("Client finished in row!!")
                 
             
             # attention time simulation
@@ -132,21 +132,21 @@ class Game:
                         self.store.timeBoxes[i+1] = self.store.attention_time_box()
                         self.store.max_attention_time_box(self.store.timeBoxes[i+1])
                         self.store.min_attention_time_box(self.store.timeBoxes[i+1])
-                        print("Attention time box", i+1, ":", self.store.timeBoxes[i+1])
+                        #print("Attention time box", i+1, ":", self.store.timeBoxes[i+1])
                     
                     elif self.store.timeBoxes[i+1] < 0:
                         self.store.boxes[i+1].pop(0)
                         self.store.timeBoxes[i+1] = None
                         self.earn += Client().costClient
-                        print("Client finished in box", i+1)
+                        #print("Client finished in box", i+1)
 
                     else:
                         self.store.timeBoxes[i+1] -= 1
-                        print("Attention time box", i+1, ":", self.store.timeBoxes[i+1])
+                        #print("Attention time box", i+1, ":", self.store.timeBoxes[i+1])
                         
             pygame.display.update()
 
-            self.clock.tick(1)
+            self.clock.tick(48)
             self.time += 1
             
         pygame.quit()
