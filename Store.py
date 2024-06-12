@@ -7,8 +7,8 @@ class Store:
         self.timeBoxes={}
         self.costBox=1000
         self.row = []
-        self.clientProbability = 1/144
         self.timeRow = []
+        self.timeRowLimits = []
         
         # time boxes
         self.min_time = float('inf')
@@ -26,7 +26,7 @@ class Store:
         return self.numberBoxes*self.costBox
 
     def attention_time_box(self):
-        return np.random.normal(10, 5, 1)
+        return np.random.normal(10*60, 5*60, 1)
     
     def min_attention_time_box(self, minTime):
         self.min_time = min(float(minTime), self.min_time)
@@ -35,17 +35,16 @@ class Store:
         self.max_time = max(float(maxTime), self.max_time)
     
     def min_time_row(self):
-        if self.timeRow: 
-            return min(self.timeRow)
-        else:
-            return None
+        return min(self.timeRowLimits)
     
     def max_time_row(self):
-        if self.timeRow: 
-            return max(self.timeRow)
-        else:
-            return None
+        return max(self.timeRowLimits)
 
-    def start_client(self):
-        if np.random.rand() < self.clientProbability:
-            return True
+    def start_client(self, time):
+        arrival_time = np.random.normal(10*3600, 2*3600)
+        
+        # client arrival simulation with tolerance of 1 minute
+        if 8 * 3600 <= arrival_time <= 12 * 3600:
+            if abs(time - arrival_time) <= 60:
+                return True
+        return False
