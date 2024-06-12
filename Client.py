@@ -2,7 +2,7 @@ import random
 
 class Client:
     def __init__(self):
-        self.timeSeconds = 30
+        self.timeSeconds = 30*60
         self.costClient = 10000
         self.color = self.generate_random_color()
     

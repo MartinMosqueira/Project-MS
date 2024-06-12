@@ -31,8 +31,8 @@ class Game:
         self.unservedClients = 0
 
         # initialize time
-        self.sim_time = 14400 # 4 hours
-        self.time = 0
+        self.sim_time = 12*3600 # 12pm
+        self.time = 8*3600 # 8am
 
         self.clock = pygame.time.Clock()
         self.running = True
@@ -113,7 +113,7 @@ class Game:
                             self.store.boxes[i+1].append(self.store.row.pop(0))
                             #print("Client assigned to box", i+1)
                             self.servedClients += 1
-                            self.store.timeRow.pop(0)
+                            self.store.timeRowLimits.append(self.store.timeRow.pop(0))
                 
                 for time in range(0, len(self.store.timeRow)-1):
                     self.store.timeRow[time] -= 1
